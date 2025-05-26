@@ -8,7 +8,6 @@ export function validate (str: string) {
                     .replace('.','')
                     .replace('-','')
                     .replace(' ','')
-            }
             //tudo igual
             if(!str.split('').every(c=> c=== str[0])){
                 try {
@@ -50,4 +49,5 @@ export function validate (str: string) {
             } else return false
         } else return false
     } else return false
+}else return false
 }

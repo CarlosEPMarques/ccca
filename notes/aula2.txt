@@ -1,0 +1,16 @@
+Qual diferença entre testes de unidade e de integração?
+    Não existe uma referencia com a definição exata à respeito dessas diferenças
+
+Unit Tests
+    Existem definições de testes de unidade que podem ser um pouco confusas, como:
+        - Focam em testar componenetes individuais do código como funções, métodos ou classes
+        - São rápidos e simples de serem executados
+        - Usam mocks ou stubs para isolar dependências externas
+    Os testes de unidade, não necessariamente unitários, podem ou não envolver mais de uma classe, método ou função 
+     e não devem ter qualquer interação com recursos externos como um banco de dados, uma API ou o sistema de arquivos
+
+Integration Tests
+    Testam componentes diferentes, pertencentes à camadas diferentes, normalmente envolvendo recursos externos, 
+    sendo mais lentos e instáveis por fazerem I/O
+
+Um teste de integração com as dependências mockadas se torna um testes de unidade?

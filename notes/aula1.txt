@@ -1,0 +1,53 @@
+Testes registram o que você sabia naquele momento de criação da feature.
+Testes possuem uma estrutura
+    Given/Arrange: Definição de todas as informações necessárias para executar o comportamento que será testado
+    When/Act: Executar o comportamento
+    Then/Assert: Verificar o que aconteceu após a execução, comparando as informações retornadas com a expectativa que foi criada
+
+Parametrização de Testes
+    Exemplo:
+        test.each([
+            '97456321558', '71428793860',
+            '974.563.215-58', '714.287.938-60'
+        ])('Must validate a CPF %s', function (cpf: string) {
+            const isValid = validate(cpf)
+            expect(isValid).toBe(true)
+        })
+
+Testes devem ser FIRST
+    Fast: Os destes devem rodar rápido.
+    Independent: Não deve existir dependência entre os testes, eles devem poder ser executados de forma isolada.
+    Repeatable: O resultado deve ser o mesmo independente da quantidade de vezes que seja executado.
+    Self-validating: O próprio teste deve ter uma saúda bem definida que é válida ou não fazendo com que ele passe ou falhe.
+    Timely: Os testes devem ser escritos antes do código-fonte
+
+Como funciona o TDD?
+    - Não é uma técnica para construir testes. É um método para construir software
+    - Não precisa ser unicamente teste de unidade
+    - Não tem mistério: 
+        1. Escreva um teste que vai falhar
+        2. Faça o código funcionar
+        3. Elimine a redundância
+    - Três leis do TDD:
+        1. Você não pode escrever nenhum código até ter escrito um teste que detecte uma possível falha.
+        2. Você não pode escrever mais testes de unidade do que o suficiente para detectar a falha.
+        3. Você não pode escrever mais código do que o suficiente para passar nos testes.
+
+Refactoring
+    Refactoring é um investimento, torna o software sustentável e competitivo.
+    Falta de refactoring consome tempo da equipe.
+    Refatore com propósito.
+
+    Code Smells
+        - É um indício que o código pode melhorar.
+        - O que são code smells? Observe o código e verifique o que pode ser melhorado, exemplos:
+            1. If aninhado, trazendo complexidade desnecessária.
+            2. Nomes de variáveis não explicativas.
+            3. Diferentes idiomas.
+            4. Código morto (Trechos de códigos comentados)
+            5. Linhas em branco
+            6. Números mágicos
+            7. Método Longo(Se não cabe na tela, é longo)
+            8. Variáveis declaradas longe da utilização
+            9. Declaração múltipla de variável
+            10. Tratar exceptions adequadamente

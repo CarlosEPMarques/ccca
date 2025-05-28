@@ -3,7 +3,7 @@ Qual diferença entre testes de unidade e de integração?
 
 Unit Tests
     Existem definições de testes de unidade que podem ser um pouco confusas, como:
-        - Focam em testar componenetes individuais do código como funções, métodos ou classes
+        - Focam em testar componentes individuais do código como funções, métodos ou classes
         - São rápidos e simples de serem executados
         - Usam mocks ou stubs para isolar dependências externas
     Os testes de unidade, não necessariamente unitários, podem ou não envolver mais de uma classe, método ou função 
@@ -13,4 +13,28 @@ Integration Tests
     Testam componentes diferentes, pertencentes à camadas diferentes, normalmente envolvendo recursos externos, 
     sendo mais lentos e instáveis por fazerem I/O
 
-Um teste de integração com as dependências mockadas se torna um testes de unidade?
+    Um teste de integração com as dependências mockadas se torna um testes de unidade?
+        Seguem tendo uma natureza integrada
+
+E2E
+    Replicam o ambiente do usuário final, ou seja, são testes executados de ponta a ponta envolvendo o frontend, backend e banco de dados
+    Ferramentas:
+        - Esse tipo de teste tem uma dependência muito grande de ferramentas como Selenium, Cypress, Playwright ou variações envolvendo WebDriver e Puppeteer
+    São frágeis, sensíveis e lentos, principalmente no frontend
+    Testa os fluxos mais importantes e relevantes do software.
+
+Não existe um teste melhor que outro, o ideal é ter uma combinação deles.
+
+SOLID - Single Responsibility Principle
+    Na visão de Robert Martin, devemos ir além do relacionamento, separando as coisas que mudam por motivos diferentes 
+    e nesse contexto a palavra responsabilidade significa motivo para mudar 
+
+Arquitetura Hexagonal (Ports and Adapters)
+    Ports = Interfaces
+    Adapters = Implementação da Interfaces
+
+    Qual sentido da existência da Interface?
+        - Servir a quem usa.
+    
+SOLID - Dependency Inversion Principle
+    Módulos devem depender de abstrações

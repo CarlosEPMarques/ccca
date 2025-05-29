@@ -1,3 +1,4 @@
+import sinon from "sinon"
 import { AccountDAODatabase, AccountDAOMemory } from "../src/data"
 import GetAccount from "../src/getAccount"
 import Signup from "../src/signup"
@@ -6,8 +7,8 @@ let signup: Signup
 let getAccount: GetAccount
 
 beforeEach(() => {
-    //const accountDAO = new AccountDAODatabase()
-    const accountDAO = new AccountDAOMemory()
+    const accountDAO = new AccountDAODatabase()
+    //const accountDAO = new AccountDAOMemory()
     signup = new Signup(accountDAO)
     getAccount = new GetAccount(accountDAO)
 })
@@ -121,4 +122,102 @@ test('Should not create a Driver account if car plate is invalid', async functio
     }
     expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid car plate.'))
 
+})
+
+// Test Patterns
+
+test('STUB - Must create a Passenger account', async function() {
+
+    const input = {
+        name: 'John Doe',
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: '97456321558',
+        password: 'asdQWE123',
+        isPassenger: true
+    }
+    const saveAccountStub = sinon.stub(AccountDAODatabase.prototype, 'saveAccount').resolves()
+    const getAccountByEmailStub = sinon.stub(AccountDAODatabase.prototype, 'getAccountByEmail').resolves()
+    const getAccountByIdStub = sinon.stub(AccountDAODatabase.prototype, 'getAccountById').resolves(input)
+    const outputSignup = await signup.execute(input)
+    expect(outputSignup.accountId).toBeDefined()
+
+    const outputGetAccount = await getAccount.execute(outputSignup.accountId)
+    expect(outputGetAccount.name).toBe(input.name)
+    expect(outputGetAccount.email).toBe(input.email)
+    expect(outputGetAccount.cpf).toBe(input.cpf)
+    expect(outputGetAccount.password).toBe(input.password)
+    saveAccountStub.restore()
+    getAccountByEmailStub.restore()
+    getAccountByIdStub.restore()
+})
+
+test('SPY - Must create a Passenger account', async function() {
+    const saveAccountSpy = sinon.spy(AccountDAODatabase.prototype, 'saveAccount')
+    const getAccountByIdSpy = sinon.spy(AccountDAODatabase.prototype, 'getAccountById')
+
+    const input = {
+        name: 'John Doe',
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: '97456321558',
+        password: 'asdQWE123',
+        isPassenger: true
+    }
+    
+    const outputSignup = await signup.execute(input)
+    expect(outputSignup.accountId).toBeDefined()
+
+    const outputGetAccount = await getAccount.execute(outputSignup.accountId)
+    expect(outputGetAccount.name).toBe(input.name)
+    expect(outputGetAccount.email).toBe(input.email)
+    expect(outputGetAccount.cpf).toBe(input.cpf)
+    expect(outputGetAccount.password).toBe(input.password)
+    expect(saveAccountSpy.calledOnce).toBeTruthy()
+    expect(getAccountByIdSpy.calledOnceWith(outputSignup.accountId)).toBeTruthy()
+    saveAccountSpy.restore()
+    getAccountByIdSpy.restore()
+})
+
+test('MOCK - Must create a Passenger account', async function() {
+    const input = {
+        name: 'John Doe',
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: '97456321558',
+        password: 'asdQWE123',
+        isPassenger: true
+    }
+    
+    const accountDAOMock = sinon.mock(AccountDAODatabase.prototype)
+    accountDAOMock.expects('saveAccount').once().resolves()
+    const outputSignup = await signup.execute(input)
+    expect(outputSignup.accountId).toBeDefined()
+    accountDAOMock.expects('getAccountById').once().withArgs(outputSignup.accountId).resolves(input)
+    const outputGetAccount = await getAccount.execute(outputSignup.accountId)
+    expect(outputGetAccount.name).toBe(input.name)
+    expect(outputGetAccount.email).toBe(input.email)
+    expect(outputGetAccount.cpf).toBe(input.cpf)
+    expect(outputGetAccount.password).toBe(input.password)
+    accountDAOMock.verify()
+    accountDAOMock.restore()
+})
+
+test('FAKE - Must create a Passenger account', async function() {
+    const accountDAO = new AccountDAOMemory()
+    signup = new Signup(accountDAO)
+    getAccount = new GetAccount(accountDAO)
+    const input = {
+        name: 'John Doe',
+        email: `john.doe${Math.random()}@gmail.com`,
+        cpf: '97456321558',
+        password: 'asdQWE123',
+        isPassenger: true
+    }
+    
+
+    const outputSignup = await signup.execute(input)
+    expect(outputSignup.accountId).toBeDefined()
+    const outputGetAccount = await getAccount.execute(outputSignup.accountId)
+    expect(outputGetAccount.name).toBe(input.name)
+    expect(outputGetAccount.email).toBe(input.email)
+    expect(outputGetAccount.cpf).toBe(input.cpf)
+    expect(outputGetAccount.password).toBe(input.password)
 })

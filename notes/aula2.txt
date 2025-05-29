@@ -38,3 +38,16 @@ Arquitetura Hexagonal (Ports and Adapters)
     
 SOLID - Dependency Inversion Principle
     Módulos devem depender de abstrações
+
+Test Patterns
+    Testar nem sempre é simples.
+    O que fazer quando existem entradas e saídas indiretas no componente testado? (Indireta que dizer que você nao controla)
+
+    Test Double é um padrão que tem o objetivo de substituir um DOC (depended-on component) em um determinado tipo de teste por motivos de performance e segurança
+    Dummy: Objetos que criamos apenas para completar a lista de parâmetros que precisamos passar para invocar um determinado método
+    Stub: : Objetos que retornam respostas prontas, definidas para um determinado teste, por questão de performance ou segurança
+    Spy: Objetos que "espionam" a execução do método e armazenam os resultados para verificação posterior
+    Mocks: Objetos similares a stubs e spies, permitem que você diga exatamente o que quer que ele faça e o teste vai quebrar se isso não acontecer
+    Fake: Objetos que tem implementações que simulam o funcionamento da instância real, que seria utilizada em produção
+
+    É ruim usar test double?

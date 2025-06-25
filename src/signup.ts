@@ -18,12 +18,12 @@ export default class Signup {
 			isDriver: input.isDriver
 		}
 		const existingAccount = await this.accountDAO.getAccountByEmail(account.email)
-		if (existingAccount) throw new Error('Account already exists.');
-		if (!account.name.match(/[a-zA-Z] [a-zA-Z]+/)) throw new Error('Invalid name.');
-		if (!account.email.match(/^(.+)@(.+)$/)) throw new Error('Invalid email.');
-		if (!validatePassword(account.password)) throw new Error('Invalid password.');
-		if (!validateCpf(account.cpf)) throw new Error('Invalid CPF.');
-		if (account.isDriver && !account.carPlate.match(/[A-Z]{3}[0-9]{4}/)) throw new Error('Invalid car plate.');
+		if (existingAccount) throw new Error('Account already exists');
+		if (!account.name.match(/[a-zA-Z] [a-zA-Z]+/)) throw new Error('Invalid name');
+		if (!account.email.match(/^(.+)@(.+)$/)) throw new Error('Invalid email');
+		if (!validatePassword(account.password)) throw new Error('Invalid password');
+		if (!validateCpf(account.cpf)) throw new Error('Invalid CPF');
+		if (account.isDriver && !account.carPlate.match(/[A-Z]{3}[0-9]{4}/)) throw new Error('Invalid car plate');
 		await this.accountDAO.saveAccount(account)
 		return {
 			accountId: account.accountId

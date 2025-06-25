@@ -59,7 +59,7 @@ test('Should not create a Passenger account if name is invalid', async function(
         password: 'asdQWE123',
         isPassenger: true
     }
-    expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid name.'))
+    expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid name'))
 })
 
 test('Should not create a Passenger account if email is invalid', async function() {
@@ -70,11 +70,11 @@ test('Should not create a Passenger account if email is invalid', async function
         password: 'asdQWE123',
         isPassenger: true
     }
-    expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid email.'))
+    await expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid email'))
 
 })
 
-test('Should not create a Passenger account if cpf is invalid', async function() {
+test('Should not create a Passenger account if CPF is invalid', async function() {
     const input = {
         name: 'John Doe',
         email: `john.doe${Math.random()}@gmail.com`,
@@ -82,7 +82,7 @@ test('Should not create a Passenger account if cpf is invalid', async function()
         password: 'asdQWE123',
         isPassenger: true
     }
-    expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid CPF.'))
+    await expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid CPF'))
 
 })
 
@@ -94,7 +94,7 @@ test('Should not create a Passenger account if password is invalid', async funct
         password: 'asdQWE',
         isPassenger: true
     }
-    expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid password.'))
+    await expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid password'))
 
 })
 
@@ -106,8 +106,8 @@ test('Should not create a Passenger account if account is duplicated', async fun
         password: 'asdQWE123',
         isPassenger: true
     }
-    await signup.execute(input)
-    expect(() => signup.execute(input)).rejects.toThrow(new Error('Account already exists.'))
+    await signup.execute(input);
+    await expect(() => signup.execute(input)).rejects.toThrow(new Error('Account already exists'))
 
 })
 
@@ -120,7 +120,7 @@ test('Should not create a Driver account if car plate is invalid', async functio
         isDriver: true,
         carPlate: 'AAA999'
     }
-    expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid car plate.'))
+    await expect(() => signup.execute(input)).rejects.toThrow(new Error('Invalid car plate'))
 
 })
 

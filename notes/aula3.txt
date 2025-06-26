@@ -1,0 +1,1 @@
+A Clean Architecture é um modelo que tem como objetivo o desacoplamento entre as regas de negócio, ou domínio, da aplicação e os recursos externos como frameworks e banco de dados

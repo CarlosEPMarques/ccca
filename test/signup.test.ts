@@ -2,6 +2,7 @@ import sinon from "sinon"
 import { AccountDAODatabase, AccountDAOMemory } from "../src/data"
 import GetAccount from "../src/getAccount"
 import Signup from "../src/signup"
+import Registry from "../src/Registry"
 
 let signup: Signup
 let getAccount: GetAccount
@@ -9,8 +10,9 @@ let getAccount: GetAccount
 beforeEach(() => {
     const accountDAO = new AccountDAODatabase()
     //const accountDAO = new AccountDAOMemory()
-    signup = new Signup(accountDAO)
-    getAccount = new GetAccount(accountDAO)
+    Registry.getInstance().provide("accountDAO", accountDAO)
+    signup = new Signup()
+    getAccount = new GetAccount()
 })
 
 test('Must create a Passenger account', async function() {
@@ -202,8 +204,9 @@ test('MOCK - Must create a Passenger account', async function() {
 
 test('FAKE - Must create a Passenger account', async function() {
     const accountDAO = new AccountDAOMemory()
-    signup = new Signup(accountDAO)
-    getAccount = new GetAccount(accountDAO)
+    Registry.getInstance().provide("accountDAO", accountDAO)
+    signup = new Signup()
+    getAccount = new GetAccount()
     const input = {
         name: 'John Doe',
         email: `john.doe${Math.random()}@gmail.com`,

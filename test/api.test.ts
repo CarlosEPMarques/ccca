@@ -36,5 +36,5 @@ test('Should not create a Passenger account if name is invalid', async function(
     const responseSignup = await axios.post('http:localhost:3000/signup', input)
     expect(responseSignup.status).toBe(422)
     const outputSignup = responseSignup.data
-    expect(outputSignup.message).toBe('Invalid name.')
+    expect(outputSignup.message).toBe('Invalid name')
 })

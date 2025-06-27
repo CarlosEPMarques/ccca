@@ -1,1 +1,7 @@
 A Clean Architecture é um modelo que tem como objetivo o desacoplamento entre as regas de negócio, ou domínio, da aplicação e os recursos externos como frameworks e banco de dados
+
+Os use cases expõe o comportamento demandado pelos drivers(atores), e orquestram as entidades e os recursos externos como DB, API, fila
+
+Se não é exposto, não é UseCase
+
+

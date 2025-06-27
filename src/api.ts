@@ -1,13 +1,13 @@
 import express from "express";
-import { AccountDAODatabase } from './data';
+import { AccountRepositoryDatabase } from './AccountRepository';
 import Signup from "./signup";
-import GetAccount from "./getAccount";
+import GetAccount from "./GetAccount";
 import Registry from "./Registry";
 
 const app = express();
 app.use(express.json());
-const accountDAO = new AccountDAODatabase()
-Registry.getInstance().provide("accountDAO", accountDAO)
+const accountRepository = new AccountRepositoryDatabase()
+Registry.getInstance().provide("accountRepository", accountRepository)
 const signup = new Signup()
 const getAccount = new GetAccount()
 

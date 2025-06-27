@@ -4,4 +4,15 @@ Os use cases expõe o comportamento demandado pelos drivers(atores), e orquestra
 
 Se não é exposto, não é UseCase
 
+Entidades sao responsáveis por abstrair as regras de negocio independentes, que podem ser desde um objeto com métodos até mesmo um conjunto de funções
 
+O que são regras de negócio independentes?
+    - A Placa do carro é válida?
+    - Qual é a distância entre duas coordenadas?
+    - Quanto é a tarifa da corrida?
+
+Essas entidades não são as mesmas que utilizamos em um ORM
+
+Domain Objects vs ORM Objects
+
+O que é um Domínio Anêmico?

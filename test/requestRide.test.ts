@@ -1,8 +1,8 @@
-import { AccountDAODatabase } from "../src/data"
+import { AccountRepositoryDatabase } from "../src/AccountRepository"
 import GetRide from "../src/GetRide"
 import Registry from "../src/Registry"
 import RequestRide from "../src/RequestRide"
-import { RideDAODatabase } from "../src/RideDAO"
+import { RideRepositoryDatabase } from "../src/RideRepository"
 import Signup from "../src/signup"
 
 let signup: Signup
@@ -10,10 +10,10 @@ let requestRide: RequestRide
 let getRide: GetRide
 
 beforeEach(() => {
-    const accountDAO = new AccountDAODatabase()
-    const rideDAO = new RideDAODatabase()
-    Registry.getInstance().provide("accountDAO", accountDAO)
-    Registry.getInstance().provide("rideDAO", rideDAO)
+    const accountRepository = new AccountRepositoryDatabase()
+    const rideRepository = new RideRepositoryDatabase()
+    Registry.getInstance().provide("accountRepository", accountRepository)
+    Registry.getInstance().provide("rideRepository", rideRepository)
     signup = new Signup()
     getRide = new GetRide()
     requestRide = new RequestRide()

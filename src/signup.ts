@@ -1,36 +1,16 @@
-import crypto from "crypto";
-import { validateCpf } from "./validateCpf";
-import AccountDAO from './data';
-import { validatePassword } from "./validatePassword";
-import Registry, { inject } from "./Registry";
+import Account from './Account';
+import AccountRepository from './AccountRepository';
+import { inject } from "./Registry";
 
 export default class Signup {
-	@inject("accountDAO")
-	accountDAO!: AccountDAO
-	
-	constructor() {
-		this.accountDAO = Registry.getInstance().inject("accountDAO")
-	}
+	@inject("accountRepository")
+	accountRepository!: AccountRepository
 
 	async execute(input: any) {
-		const account = {
-			accountId: crypto.randomUUID(),
-			name: input.name,
-			email: input.email,
-			cpf: input.cpf,
-			password: input.password,
-			carPlate: input.carPlate,
-			isPassenger: input.isPassenger,
-			isDriver: input.isDriver
-		}
-		const existingAccount = await this.accountDAO.getAccountByEmail(account.email)
+		const account = Account.create(input.name, input.email, input.cpf, input.password, input.carPlate, input.isPassenger, input.isDriver)
+		const existingAccount = await this.accountRepository.getAccountByEmail(account.email)
 		if (existingAccount) throw new Error('Account already exists');
-		if (!account.name.match(/[a-zA-Z] [a-zA-Z]+/)) throw new Error('Invalid name');
-		if (!account.email.match(/^(.+)@(.+)$/)) throw new Error('Invalid email');
-		if (!validatePassword(account.password)) throw new Error('Invalid password');
-		if (!validateCpf(account.cpf)) throw new Error('Invalid CPF');
-		if (account.isDriver && !account.carPlate.match(/[A-Z]{3}[0-9]{4}/)) throw new Error('Invalid car plate');
-		await this.accountDAO.saveAccount(account)
+		await this.accountRepository.saveAccount(account)
 		return {
 			accountId: account.accountId
 		}

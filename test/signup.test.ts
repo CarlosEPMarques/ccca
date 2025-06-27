@@ -1,6 +1,6 @@
 import sinon from "sinon"
-import { AccountDAODatabase, AccountDAOMemory } from "../src/data"
-import GetAccount from "../src/getAccount"
+import { AccountRepositoryDatabase, AccountRepositoryMemory } from "../src/AccountRepository"
+import GetAccount from "../src/GetAccount"
 import Signup from "../src/signup"
 import Registry from "../src/Registry"
 
@@ -8,9 +8,9 @@ let signup: Signup
 let getAccount: GetAccount
 
 beforeEach(() => {
-    const accountDAO = new AccountDAODatabase()
-    //const accountDAO = new AccountDAOMemory()
-    Registry.getInstance().provide("accountDAO", accountDAO)
+    const accountRepository = new AccountRepositoryDatabase()
+    //const accountRepository = new AccountRepositoryMemory()
+    Registry.getInstance().provide("accountRepository", accountRepository)
     signup = new Signup()
     getAccount = new GetAccount()
 })
@@ -129,17 +129,16 @@ test('Should not create a Driver account if car plate is invalid', async functio
 // Test Patterns
 
 test('STUB - Must create a Passenger account', async function() {
-
-    const input = {
+    const input: any = {
         name: 'John Doe',
         email: `john.doe${Math.random()}@gmail.com`,
         cpf: '97456321558',
         password: 'asdQWE123',
         isPassenger: true
     }
-    const saveAccountStub = sinon.stub(AccountDAODatabase.prototype, 'saveAccount').resolves()
-    const getAccountByEmailStub = sinon.stub(AccountDAODatabase.prototype, 'getAccountByEmail').resolves()
-    const getAccountByIdStub = sinon.stub(AccountDAODatabase.prototype, 'getAccountById').resolves(input)
+    const saveAccountStub = sinon.stub(AccountRepositoryDatabase.prototype, 'saveAccount').resolves()
+    const getAccountByEmailStub = sinon.stub(AccountRepositoryDatabase.prototype, 'getAccountByEmail').resolves()
+    const getAccountByIdStub = sinon.stub(AccountRepositoryDatabase.prototype, 'getAccountById').resolves(input)
     const outputSignup = await signup.execute(input)
     expect(outputSignup.accountId).toBeDefined()
 
@@ -154,8 +153,8 @@ test('STUB - Must create a Passenger account', async function() {
 })
 
 test('SPY - Must create a Passenger account', async function() {
-    const saveAccountSpy = sinon.spy(AccountDAODatabase.prototype, 'saveAccount')
-    const getAccountByIdSpy = sinon.spy(AccountDAODatabase.prototype, 'getAccountById')
+    const saveAccountSpy = sinon.spy(AccountRepositoryDatabase.prototype, 'saveAccount')
+    const getAccountByIdSpy = sinon.spy(AccountRepositoryDatabase.prototype, 'getAccountById')
 
     const input = {
         name: 'John Doe',
@@ -188,23 +187,23 @@ test('MOCK - Must create a Passenger account', async function() {
         isPassenger: true
     }
     
-    const accountDAOMock = sinon.mock(AccountDAODatabase.prototype)
-    accountDAOMock.expects('saveAccount').once().resolves()
+    const accountRepositoryMock = sinon.mock(AccountRepositoryDatabase.prototype)
+    accountRepositoryMock.expects('saveAccount').once().resolves()
     const outputSignup = await signup.execute(input)
     expect(outputSignup.accountId).toBeDefined()
-    accountDAOMock.expects('getAccountById').once().withArgs(outputSignup.accountId).resolves(input)
+    accountRepositoryMock.expects('getAccountById').once().withArgs(outputSignup.accountId).resolves(input)
     const outputGetAccount = await getAccount.execute(outputSignup.accountId)
     expect(outputGetAccount.name).toBe(input.name)
     expect(outputGetAccount.email).toBe(input.email)
     expect(outputGetAccount.cpf).toBe(input.cpf)
     expect(outputGetAccount.password).toBe(input.password)
-    accountDAOMock.verify()
-    accountDAOMock.restore()
+    accountRepositoryMock.verify()
+    accountRepositoryMock.restore()
 })
 
 test('FAKE - Must create a Passenger account', async function() {
-    const accountDAO = new AccountDAOMemory()
-    Registry.getInstance().provide("accountDAO", accountDAO)
+    const accountRepository = new AccountRepositoryMemory()
+    Registry.getInstance().provide("accountRepository", accountRepository)
     signup = new Signup()
     getAccount = new GetAccount()
     const input = {

@@ -12,17 +12,17 @@ test('Must create a Passenger account', async function() {
         password: 'asdQWE123',
         isPassenger: true
     }
-    const responseSignup = await axios.post('http:localhost:3000/signup', input)
-    const outputSignup = responseSignup.data
-    expect(outputSignup.accountId).toBeDefined()
+    const responseSignup = await axios.post("http://localhost:3001/signup", input);
+    const outputSignup = responseSignup.data;
+    expect(outputSignup.accountId).toBeDefined();
 
-    const responseGetAccount = await axios.get(`http:localhost:3000/accounts/${outputSignup.accountId}`)
-    const outputGetAccount = responseGetAccount.data
-    expect(outputGetAccount.name).toBe(input.name)
-    expect(outputGetAccount.email).toBe(input.email)
-    expect(outputGetAccount.cpf).toBe(input.cpf)
-    expect(outputGetAccount.password).toBe(input.password)
-    expect(outputGetAccount.is_passenger).toBe(input.isPassenger)
+    const responseGetAccount = await axios.get(`http://localhost:3001/accounts/${outputSignup.accountId}`);
+    const outputGetAccount = responseGetAccount.data;
+    expect(outputGetAccount.name).toBe(input.name);
+    expect(outputGetAccount.email).toBe(input.email);
+    expect(outputGetAccount.cpf).toBe(input.cpf);
+    expect(outputGetAccount.password).toBe(input.password);
+    expect(outputGetAccount.isPassenger).toBe(input.isPassenger);
 })
 
 test('Should not create a Passenger account if name is invalid', async function() {

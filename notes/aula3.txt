@@ -16,3 +16,22 @@ Essas entidades não são as mesmas que utilizamos em um ORM
 Domain Objects vs ORM Objects
 
 O que é um Domínio Anêmico?
+
+os Interface adapters fazem a ponte entre os casos de uso e os recurso externos
+Tratamento de requisições e respostas HTTP, lidando com parâmetros
+Acesso ao DB, todo código SQL pertence à esta camada
+Integração com API externa
+Escrita e Leitura no sistema de Arquivo
+Conversão de dados para formatos específicos como CSV e PDF
+
+Por fim, os frameworks and drivers são o nível mais baixo de abstração, é a interação com a tecnologia, com os componentes que realizam a conexão com o banco de dados,
+as requisições HTTP, a interação com o sistema de arquivos ou o acessa aos recursos do sistema operacional
+
+O main é o ponto de entrada da aplicação(HTTP, CLI, UI, Testes), é lá que as fábricas e estratégias são inicializadas e as injeções de dependência são realizadas durante a inicialização
+
+quem ta dentro não conhece quem está fora, mas que está fora conhece quem está dentro, 
+as entidades não conhecem os use cases e esses não conhecem a implementação dos interface adapters, que nao conhecem a implementação de frameworks and drivers
+
+uma camada é uma fronteira lógica entre um conjunto de componentes, que tem uma responsabilidade bem definida
+
+As camadas nao tem necessariamente relação física com as pastas, servem para estruturar

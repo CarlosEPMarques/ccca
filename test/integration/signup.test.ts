@@ -1,13 +1,17 @@
 import sinon from "sinon"
-import { AccountRepositoryDatabase, AccountRepositoryMemory } from "../src/AccountRepository"
-import GetAccount from "../src/GetAccount"
-import Signup from "../src/signup"
-import Registry from "../src/Registry"
+import { AccountRepositoryDatabase, AccountRepositoryMemory } from "../../src/infra/repository/AccountRepository"
+import GetAccount from "../../src/application/usecase/GetAccount"
+import Signup from "../../src/application/usecase/signup"
+import Registry from "../../src/infra/di/Registry"
+import DatabaseConnection, { PgPromiseAdapter } from "../../src/infra/database/DatabaseConnection"
 
+let databaseConnection: DatabaseConnection
 let signup: Signup
 let getAccount: GetAccount
 
 beforeEach(() => {
+    databaseConnection = new PgPromiseAdapter()
+    Registry.getInstance().provide('databaseConnection', databaseConnection)
     const accountRepository = new AccountRepositoryDatabase()
     //const accountRepository = new AccountRepositoryMemory()
     Registry.getInstance().provide("accountRepository", accountRepository)
@@ -222,4 +226,8 @@ test('FAKE - Must create a Passenger account', async function() {
     expect(outputGetAccount.email).toBe(input.email)
     expect(outputGetAccount.cpf).toBe(input.cpf)
     expect(outputGetAccount.password).toBe(input.password)
+})
+
+afterEach(async () => {
+    await databaseConnection.close()
 })

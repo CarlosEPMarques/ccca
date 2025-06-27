@@ -1,4 +1,4 @@
-import { validatePassword } from "../src/validatePassword"
+import { validatePassword } from "../../src/domain/validatePassword"
 
 test.each([
     'asdfgH123', 'asdG123456', 'aG1aG12399'

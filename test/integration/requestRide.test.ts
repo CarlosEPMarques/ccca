@@ -1,15 +1,19 @@
-import { AccountRepositoryDatabase } from "../src/AccountRepository"
-import GetRide from "../src/GetRide"
-import Registry from "../src/Registry"
-import RequestRide from "../src/RequestRide"
-import { RideRepositoryDatabase } from "../src/RideRepository"
-import Signup from "../src/signup"
+import { AccountRepositoryDatabase } from "../../src/infra/repository/AccountRepository"
+import DatabaseConnection, { PgPromiseAdapter } from "../../src/infra/database/DatabaseConnection"
+import GetRide from "../../src/application/usecase/GetRide"
+import Registry from "../../src/infra/di/Registry"
+import RequestRide from "../../src/application/usecase/RequestRide"
+import { RideRepositoryDatabase } from "../../src/infra/repository/RideRepository"
+import Signup from "../../src/application/usecase/signup"
 
+let databaseConnection: DatabaseConnection
 let signup: Signup
 let requestRide: RequestRide
 let getRide: GetRide
 
 beforeEach(() => {
+    databaseConnection = new PgPromiseAdapter()
+    Registry.getInstance().provide('databaseConnection', databaseConnection)
     const accountRepository = new AccountRepositoryDatabase()
     const rideRepository = new RideRepositoryDatabase()
     Registry.getInstance().provide("accountRepository", accountRepository)
@@ -106,4 +110,8 @@ test('Should not request a ride if latitude and longitude are invalid', async fu
 		toLong: -48.522234807851476
     }
     await expect(() => requestRide.execute(inputRequestRide)).rejects.toThrow(new Error('The latitude is invalid'))
+})
+
+afterEach(async () => {
+    await databaseConnection.close()
 })
